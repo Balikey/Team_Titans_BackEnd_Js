@@ -1,9 +1,26 @@
-var express = require("express");
-const SmsController = require("../controllers/SmsController");
+const express = require("express");
+const {
+	getAccountBalance,
+	getAllSms,
+	sendSms,
+	smsHistory,
+	sendMultiple,
+} = require("../controllers/SmsController");
+const smsRouter = express.Router();
+const {smsSchedule} = require("../controllers/ScheduleController");
 
-var router = express.Router();
 
-router.get("/", SmsController.getAccountBalance);
-router.post("/send/:phone", SmsController.sendSms);
+smsRouter.get("/balance", getAccountBalance);
+smsRouter.get("/all", getAllSms);
+smsRouter.post("/send", sendSms);
 
-module.exports = router;
+smsRouter.get("/sms_history", smsHistory);
+smsRouter.post("/send_multiple", sendMultiple);
+
+// schedule sms
+smsRouter.post("/schedule", smsSchedule);
+
+
+
+
+module.exports = smsRouter;
